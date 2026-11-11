@@ -1,0 +1,10 @@
+check if windows service MySQL80 is running
+
+log into mysql db server:
+mysql -u root -p
+
+show databases;
+create database <name>;
+drop database <name>;
+
+the name of my database is "crud_products_db"
