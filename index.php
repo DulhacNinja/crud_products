@@ -1,24 +1,13 @@
-<!DOCTYPE html>
-<html>
+<?php
 
-<body>
-    <h1>Recommended books</h1>
-    <?php
-    $books = [
-        ["name" => "myBook",
-        "author" => "Dulhac"],
+ require 'utils.php';
+ require 'Database.php';
+// echo phpinfo(INFO_ALL);
+// die();
+ $db = new Database("localhost", "3306", "crud_products_db", "root", "root");
+ $products = $db->query("select * from products", []);
 
-        ["name" => "hisBook",
-        "author" => "stefan"],
-
-    ];
-    ?>
-
-    <ul>
-        <?php foreach ($books as $book) : ?>
-            <li> <?php echo "{$book["name"]} ". "{$book["author"]}"  ?> </li>
-        <?php endforeach; ?>
-        </ul>
-</body>
-
-</html>
+ foreach($products as $product):
+     echo var_dump($product['name']) . "<br>";
+ endforeach;
+ die();
