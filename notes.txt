@@ -7,4 +7,22 @@ show databases;
 create database <name>;
 drop database <name>;
 
-the name of my database is "crud_products_db"
+!! the name of my database is "crud_products_db"
+to use the db:
+use crud_products_db;
+
+
+Database class
+router
+for create, make html form and get them from _POST
+Validator pure class for each type of input
+some weird stuff about how to 'require' files????
+
+better router + wildcards
+
+1. make the 'require' wrapper so it's more versatile
+2. make the App singleton for the container + bootstrap database
+3. router
+4. validator
+5. endpoints + some minimal html
+6. 
