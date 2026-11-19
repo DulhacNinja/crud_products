@@ -20,9 +20,5 @@ some weird stuff about how to 'require' files????
 
 better router + wildcards
 
-1. make the 'require' wrapper so it's more versatile
-2. make the App singleton for the container + bootstrap database
-3. router
-4. validator
-5. endpoints + some minimal html
-6. 
+
+1. route + controller for paginated output
