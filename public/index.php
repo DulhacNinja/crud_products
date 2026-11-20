@@ -34,7 +34,7 @@
             require BASE_PATH .'/views/home.php';
             break;
 
-        case 'products';
+        case 'products':
         // the default should be to display the list
             if(!isset($_SESSION['action']) || $_SESSION['action'] == '') {
                 $_SESSION['action'] = 'show';
@@ -46,4 +46,5 @@
             echo '<h1> this resource does not exist! try /products</h1>';
             var_dump($url);
             die(400);
+    
 }

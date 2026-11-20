@@ -18,7 +18,6 @@ for create, make html form and get them from _POST
 Validator pure class for each type of input
 some weird stuff about how to 'require' files????
 
-better router + wildcards
 
-
-1. route + controller for paginated output
+MAKE POSTMAN REQUESTS FOR ENDPOINTS
+WRITE POST.PHP AND PUT.PHP

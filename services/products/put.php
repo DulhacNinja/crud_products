@@ -1,3 +1,5 @@
 <?php
 
-echo __FILE__;
+function updateProduct(){
+
+}
