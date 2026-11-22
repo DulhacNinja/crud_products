@@ -8,7 +8,7 @@
 
     require_once BASE_PATH . '/vendor/autoload.php';
 
-    require BASE_PATH . '/utils.php';
+    require_once BASE_PATH . '/utils.php';
 
     $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 

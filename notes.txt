@@ -19,7 +19,7 @@ Validator pure class for each type of input
 some weird stuff about how to 'require' files????
 
 
-1. MAKE POSTMAN REQUESTS FOR ENDPOINTS (make sure you save them this time lmao)
-2. test Product class
-3. make ProductService class
+0. move the bussiness related validations and errors to the ProductService class
+0.5 controller is meant to translate HTTP request to the service
+1. make ProductService class
 
