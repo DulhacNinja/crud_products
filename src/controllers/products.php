@@ -1,7 +1,7 @@
 <?php
 
 const PRODUCTS_VIEWS = BASE_PATH . '/views/products';
-const PRODUCTS_SERVICES = BASE_PATH .'/services/products';
+const PRODUCTS_SERVICES = BASE_PATH .'/src/services/products';
 
 // action that I want to perform as user with view (i.e. create, show, delete)
 $action = $_SESSION['action'];

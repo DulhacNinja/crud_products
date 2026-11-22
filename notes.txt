@@ -19,5 +19,7 @@ Validator pure class for each type of input
 some weird stuff about how to 'require' files????
 
 
-MAKE POSTMAN REQUESTS FOR ENDPOINTS
-WRITE POST.PHP AND PUT.PHP
+1. MAKE POSTMAN REQUESTS FOR ENDPOINTS (make sure you save them this time lmao)
+2. test Product class
+3. make ProductService class
+

@@ -4,6 +4,10 @@
     session_start();
 
     const BASE_PATH = __DIR__ . '/..';
+    const MAX_STR_LENGTH = 255;
+
+    require_once BASE_PATH . '/vendor/autoload.php';
+
     require BASE_PATH . '/utils.php';
 
     $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -39,7 +43,7 @@
             if(!isset($_SESSION['action']) || $_SESSION['action'] == '') {
                 $_SESSION['action'] = 'show';
             }
-            require BASE_PATH .'/controllers/products.php';
+            require BASE_PATH .'/src/controllers/products.php';
             break;
 
         default:
