@@ -9,29 +9,12 @@ function createProduct($data){
 
     $conn = require BASE_PATH . '/db.php';
 
-    // https://stackoverflow.com/questions/15821532/get-current-auto-increment-value-for-any-table
-    // use this to delete cache, otherwise AUTO_INCREMENT stays the same
-    $statement = $conn->prepare('SET SESSION information_schema_stats_expiry = 0');
-    $statement->execute();
-    $result = $statement->fetch();
 
-
-    // https://stackoverflow.com/questions/1405393/finding-the-next-available-id-in-mysql
-    $statement = $conn->prepare('SELECT Auto_increment FROM information_schema.tables WHERE table_name="products"');
-    $statement->execute();
-    $result = $statement->fetch();
-
-    // next id that is available, so that image can be named and stored on disk so the link can be added in the DB
-    $next_id = $result['AUTO_INCREMENT'];
     $prod = new Product($data);
     dd($prod);
 
     
-    // also make sure that /images exists in the first place
-    $image_path = BASE_PATH . "/images/" . $next_id;
-    $file_w = fopen($image_path, 'w+');
-    fwrite($file_w, $data['image']);
-    fclose($file_w);
+
 
     // maybe some checks later on? has writting been successfull?
     // echo "image path: " . $image_path;
@@ -41,9 +24,7 @@ function createProduct($data){
     $data['image_path'] = $image_path;
     unset($data['image']);
     
-    $statement = $conn->prepare("INSERT INTO products (name, description, price, image_path, availability_date, is_in_stock) VALUES (:name, :description, :price, :image_path, :availability_date, :is_in_stock)");
-    $statement->execute($data);
-    $result = $statement->fetch();
+
 
     $jsonformat = json_encode($result);
     return $jsonformat;
