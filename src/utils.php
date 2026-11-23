@@ -21,11 +21,6 @@ function normalizePath(string $path): string
     return $path;
 }
 
-function validateStringLength(string $value): bool
-{
-    return strlen($value) <= MAX_STR_LENGTH;
-}
-
 // https://www.php.net/manual/en/function.exif-imagetype.php
 // code copied from comment
 function is_jpeg(&$pict)

@@ -2,7 +2,7 @@ show databases;
 use crud_products_db;
 describe products;
 
-INSERT INTO products (name, description, price, is_in_stock)
+INSERT INTO products (name, description, price, isInStock)
 VALUES
     ('wine', 'fermented grape juice that makes you fancy and drunk', 1500, true),
     ('water', 'liquid that keeps you alive', 100, true),

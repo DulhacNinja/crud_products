@@ -12,7 +12,11 @@
     "autoload": {
         "psr-4": {
             "models\\" :"models/",
-            "src\\" : "src/"
+            "src\\" : "src/",
+            "services\\" : "services/",
+            "controllers\\" : "controllers/",
+            "repositories\\" : "repositories/",
+            "validators\\" : "validators/"
         }
     }
 }
