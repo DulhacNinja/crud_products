@@ -18,6 +18,9 @@ class ProductsController
     {
         $this->productsService = new ProductsService();
         $this->productsValidator = new ProductsValidator();
+
+        // always returns a json
+        header('Content-Type: application/json');
     }
 
     // wrapper get function
