@@ -5,14 +5,17 @@
     <meta charset="utf-8">
     <title>Product listing</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="/Paginator.js"></script>
+    <script src="/script.js"></script>
 </head>
 
 <body>
-    <label for="page">Page #</label>
-    <input type="number" id="page" name="page" min="1" max="10">
+    <label for="prevPage"></label>
+    <button type="button" id="prevPage" name="prevPage">Previous Page</button>
 
-    <label for="getPageNumber"> Confirm Page</label>
-    <input type="button" id="getPageNumber" name="getPageNumber">
+    <label for="nextPage"></label>
+    <button type="button" id="nextPage" name="nextPage">Next Page</button>
+
 
     <table id="productsTable">
         <tr>
@@ -21,7 +24,7 @@
             <th>Price</th>
         </tr>
     </table>
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
         function updateTable(pageVal) {
             alert("pressed button");
             $.getJSON(url = "/api/products?page=" + pageVal + "&limit=5",
@@ -47,7 +50,7 @@
 
             updateTable(pageNumber.value);
         });
-    </script>
+    </script> -->
 </body>
 
 </html>

@@ -24,14 +24,36 @@ class ProductsController
     }
 
     // wrapper get function
-    public function get(){
+    public function get()
+    {
 
-        if(isset($_GET["id"])){
+        if ($uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) == '/api/products/pages') {
+            $this->getPagesNumber();
+        } elseif (isset($_GET["id"])) {
             $this->getByID();
-        }
-        else{
+        } else {
             $this->getPage();
         }
+    }
+
+    public function getPagesNumber()
+    {
+        $limit = intval($_GET["limit"]);
+        if($limit <= 0){
+            http_response_code(StatusCodes::HTTP_BAD_REQUEST);
+            echo "{\"error\": \"Can't provide total number of pages if the page limit is not a positive non-zero integer\"}";
+            die();
+        }
+        try {
+            $pages = $this->productsService->getPagesNumber($limit);
+        } catch (Exception $e) {
+            http_response_code(StatusCodes::HTTP_NOT_FOUND);
+            echo "{ \"error\" : \"{$e->getMessage()}\"}";
+            die();
+        }
+        http_response_code(StatusCodes::HTTP_OK);
+        echo json_encode(["pages" => $pages], JSON_PRETTY_PRINT);
+
     }
 
     // request to the api endpoint, get method, id in query params
@@ -105,7 +127,7 @@ class ProductsController
         http_response_code(StatusCodes::HTTP_OK);
         // I'm returning it for debugging purposes, because if you return code NO_CONTENT response is forced empty
         echo json_encode($product, JSON_PRETTY_PRINT);
-        
+
     }
 
     public function post()
@@ -186,31 +208,31 @@ class ProductsController
         // if validate function returns a string, it's an error
         // if it returns null, it passed
         $result = $this->productsValidator->validateID($data['id']);
-        if ($result !== null){
+        if ($result !== null) {
             $errors[] = $result;
         }
         $result = $this->productsValidator->validateName($data['name']);
-        if ($result !== null){
+        if ($result !== null) {
             $errors[] = $result;
         }
         $result = $this->productsValidator->validatePrice($data['price']);
-        if ($result !== null){
+        if ($result !== null) {
             $errors[] = $result;
         }
         $result = $this->productsValidator->validateDescription($data['description']);
-        if ($result !== null){
+        if ($result !== null) {
             $errors[] = $result;
         }
         $result = $this->productsValidator->validateAvailabilityDate($data['availabilityDate']);
-        if ($result !== null){
+        if ($result !== null) {
             $errors[] = $result;
         }
         $result = $this->productsValidator->validateIsInStock($data['isInStock']);
-        if ($result !== null){
+        if ($result !== null) {
             $errors[] = $result;
         }
         $result = $this->productsValidator->validateImage($data['image']);
-        if ($result !== null){
+        if ($result !== null) {
             $errors[] = $result;
         }
         return $errors;

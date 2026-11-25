@@ -13,6 +13,7 @@ class ProductsService{
 
         $this->productRepository = new ProductRepository();
     }
+    
 
     // should return a proper message if product is not found
     public function getByID(int $id): Product | null{
@@ -64,6 +65,14 @@ class ProductsService{
             throw new Exception("Failed to update product with ID {$product->getID()}");
         }
         return $updated_prod;
+    }
+
+    public function getPagesNumber(int $limit){
+        $pages = $this->productRepository->getPagesNumber($limit);
+        if($pages === null){
+            throw new Exception("Failed to return the number of pages for page size limit={$limit}");
+        }
+        return $pages;
     }
     
 
