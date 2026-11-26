@@ -11,7 +11,7 @@ class ProductRepository
     {
         $this->conn = require BASE_PATH . '/src/init_db.php';
     }
-    public function getPagesNumber(int $limit): int|null{
+    public function getPagesNumber(int $limit): array|null{
         
         $statement = $this->conn->prepare("SELECT count(1) FROM products");
         $statement->execute();
@@ -22,7 +22,7 @@ class ProductRepository
         $rows = $result["count(1)"];
         // echo $rows;
         $pages = ceil($rows / $limit);
-        return $pages;
+        return ["pages" => $pages, "prodCount" => $rows];
     }
 
     public function getByID(int $id): Product|null

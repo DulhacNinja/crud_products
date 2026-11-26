@@ -5,21 +5,24 @@ use src\models\Product;
 use src\repositories\ProductRepository;
 use Exception;
 
-class ProductsService{
+class ProductsService
+{
 
     private ProductRepository $productRepository;
 
-    public function __construct(){
+    public function __construct()
+    {
 
         $this->productRepository = new ProductRepository();
     }
-    
+
 
     // should return a proper message if product is not found
-    public function getByID(int $id): Product | null{
+    public function getByID(int $id): Product|null
+    {
 
         $prod = $this->productRepository->getByID($id);
-        if($prod === null){
+        if ($prod === null) {
             throw new Exception("Product with id {$id} does not exist!");
         }
 
@@ -27,49 +30,59 @@ class ProductsService{
     }
 
     // the array is empty if no elements are found for that page
-    public function getPage(int $page, int $limit): array{
+    public function getPage(int $page, int $limit): array
+    {
 
         $prods = $this->productRepository->getPage($page, $limit);
-        if(empty($prods)){
+        if (empty($prods)) {
             throw new Exception("Page #{$page} of size {$limit} is not valid or is empty!");
         }
-        $pages = $this->productRepository->getPagesNumber($limit);
-        if($pages === null){
+        $counts = $this->productRepository->getPagesNumber($limit);
+        if ($counts["pages"] === null) {
             throw new Exception("Failed to return the number of pages for page size limit={$limit}");
         }
-        $data = ["page" => $page, "limit" => $limit, "totalPages" => $pages, "products" => $prods];
+        $data = [
+            "page" => $page,
+            "limit" => $limit,
+            "totalPages" => $counts['pages'],
+            "totalProducts" => $counts["prodCount"],
+            "products" => $prods
+        ];
         return $data;
 
     }
 
-    public function delete(int $id){
+    public function delete(int $id)
+    {
 
         $deleted_prod = $this->productRepository->delete($id);
-        if($deleted_prod === true){
+        if ($deleted_prod === true) {
             throw new Exception("Product with ID {$id} doesn't exist at all!");
         }
-        if($deleted_prod === false){
+        if ($deleted_prod === false) {
             throw new Exception("Failed to delete product with ID {$id}");
         }
         return $deleted_prod;
     }
 
-    public function save(Product $product){
+    public function save(Product $product)
+    {
 
         $new_prod = $this->productRepository->save($product);
-        if($new_prod === null){
+        if ($new_prod === null) {
             throw new Exception("Failed to save product wtih name {$product->getName()}");
         }
         return $new_prod;
     }
 
-    public function update(Product $product){
+    public function update(Product $product)
+    {
 
         $updated_prod = $this->productRepository->update($product);
-        if($updated_prod === null){
+        if ($updated_prod === null) {
             throw new Exception("Failed to update product with ID {$product->getID()}");
         }
         return $updated_prod;
     }
-    
+
 }
