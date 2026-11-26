@@ -26,37 +26,33 @@ class ProductsController
     // wrapper get function
     public function get()
     {
-
-        if ($uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) == '/api/products/pages') {
-            $this->getPagesNumber();
-        } elseif (isset($_GET["id"])) {
+        if (isset($_GET["id"])) {
             $this->getByID();
         } else {
             $this->getPage();
         }
     }
 
-    public function getPagesNumber()
-    {
-        $limit = intval($_GET["limit"]);
-        if($limit <= 0){
-            http_response_code(StatusCodes::HTTP_BAD_REQUEST);
-            echo "{\"error\": \"Can't provide total number of pages if the page limit is not a positive non-zero integer\"}";
-            die();
-        }
-        try {
-            $pages = $this->productsService->getPagesNumber($limit);
-        } catch (Exception $e) {
-            http_response_code(StatusCodes::HTTP_NOT_FOUND);
-            echo "{ \"error\" : \"{$e->getMessage()}\"}";
-            die();
-        }
-        http_response_code(StatusCodes::HTTP_OK);
-        echo json_encode(["pages" => $pages], JSON_PRETTY_PRINT);
+    // public function getPagesNumber()
+    // {
+    //     $limit = intval($_GET["limit"]);
+    //     if ($limit <= 0) {
+    //         http_response_code(StatusCodes::HTTP_BAD_REQUEST);
+    //         echo "{\"error\": \"Can't provide total number of pages if the page limit is not a positive non-zero integer\"}";
+    //         die();
+    //     }
+    //     try {
+    //         $pages = $this->productsService->getPagesNumber($limit);
+    //     } catch (Exception $e) {
+    //         http_response_code(StatusCodes::HTTP_NOT_FOUND);
+    //         echo "{ \"error\" : \"{$e->getMessage()}\"}";
+    //         die();
+    //     }
+    //     http_response_code(StatusCodes::HTTP_OK);
+    //     echo json_encode(["pages" => $pages], JSON_PRETTY_PRINT);
 
-    }
+    // }
 
-    // request to the api endpoint, get method, id in query params
     public function getByID()
     {
         // intval returns 0 on failure

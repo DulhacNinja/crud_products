@@ -14,5 +14,5 @@ $router->put("/api/products", ProductsController::class);
 $router->get("/", BASE_PATH . "/views/index.php");
 
 // endpoint for getting how many pages are available for proper pagination
-$router->get("/api/products/pages", ProductsController::class);
+// $router->get("/api/products/pages", ProductsController::class);
 return $router;

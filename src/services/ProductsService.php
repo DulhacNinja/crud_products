@@ -33,7 +33,12 @@ class ProductsService{
         if(empty($prods)){
             throw new Exception("Page #{$page} of size {$limit} is not valid or is empty!");
         }
-        return $prods;
+        $pages = $this->productRepository->getPagesNumber($limit);
+        if($pages === null){
+            throw new Exception("Failed to return the number of pages for page size limit={$limit}");
+        }
+        $data = ["page" => $page, "limit" => $limit, "totalPages" => $pages, "products" => $prods];
+        return $data;
 
     }
 
@@ -66,14 +71,5 @@ class ProductsService{
         }
         return $updated_prod;
     }
-
-    public function getPagesNumber(int $limit){
-        $pages = $this->productRepository->getPagesNumber($limit);
-        if($pages === null){
-            throw new Exception("Failed to return the number of pages for page size limit={$limit}");
-        }
-        return $pages;
-    }
     
-
 }
