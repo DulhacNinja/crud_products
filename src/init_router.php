@@ -11,8 +11,9 @@ $router->post("/api/products", ProductsController::class);
 $router->delete("/api/products", ProductsController::class);
 $router->put("/api/products", ProductsController::class);
 
+// html views
 $router->get("/", BASE_PATH . "/views/index.php");
+$router->get('/edit', BASE_PATH . "/views/edit.php");
+$router->get("/show", BASE_PATH . "/views/show.php");
 
-// endpoint for getting how many pages are available for proper pagination
-// $router->get("/api/products/pages", ProductsController::class);
 return $router;

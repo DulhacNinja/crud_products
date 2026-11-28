@@ -1,1 +1,0 @@
-fetchTable(1, 10);
