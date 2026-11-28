@@ -16,6 +16,15 @@
 </head>
 
 <body>
+    <div class="input-group col-xs-4">
+        <input id="filterInput" type="text" class="form-control" placeholder="Search that doesn't do anything yet">
+        <div class="input-group-btn">
+            <button class="btn btn-default">
+                <i class="glyphicon glyphicon-search"></i>
+            </button>
+        </div>
+    </div>
+
     <table class="table table-hover">
         <thead>
         </thead>

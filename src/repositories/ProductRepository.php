@@ -11,15 +11,22 @@ class ProductRepository
     {
         $this->conn = require BASE_PATH . '/src/init_db.php';
     }
-    public function getPagesNumber(int $limit): array|null{
-        
-        $statement = $this->conn->prepare("SELECT count(1) FROM products");
+    public function getPagesNumber(int $limit, ?string $filter): array|null
+    {
+        if ($filter) {
+            $statement = $this->conn->prepare("SELECT count(1) FROM products WHERE name LIKE ?");
+            $filter = "%{$filter}%";
+            $statement->bindParam(1, $filter, \PDO::PARAM_STR);
+        } else {
+            $statement = $this->conn->prepare("SELECT count(1) FROM products");
+        }
         $statement->execute();
         $result = $statement->fetch();
-        if (empty($result)){
+        if (empty($result)) {
             return null;
         }
         $rows = $result["count(1)"];
+
         // echo $rows;
         $pages = ceil($rows / $limit);
         return ["pages" => $pages, "prodCount" => $rows];
@@ -40,15 +47,25 @@ class ProductRepository
 
     }
     // naive pagination
-    public function getPage(int $page, int $limit)
+    public function getPage(int $page, int $limit, ?string $filter)
     {
 
         $start_from = ($page - 1) * $limit;
-        $statement = $this->conn->prepare("SELECT * FROM products LIMIT ? OFFSET ?");
+        if ($filter) {
+            $statement = $this->conn->prepare("SELECT * FROM products WHERE name LIKE ? LIMIT ? OFFSET ?");
+            $filter = "%{$filter}%";
+            $statement->bindParam(1, $filter, \PDO::PARAM_STR);
+            $statement->bindParam(2, $limit, \PDO::PARAM_INT);
+            $statement->bindParam(3, $start_from, \PDO::PARAM_INT);
+
+        } else {
+            $statement = $this->conn->prepare("SELECT * FROM products LIMIT ? OFFSET ?");
+            $statement->bindParam(1, $limit, \PDO::PARAM_INT);
+            $statement->bindParam(2, $start_from, \PDO::PARAM_INT);
+        }
 
         // if I try to add the assoc array in the "execute" call it converts the ints to strings => SQL syntax error
-        $statement->bindParam(1, $limit, \PDO::PARAM_INT);
-        $statement->bindParam(2, $start_from, \PDO::PARAM_INT);
+
         $statement->execute();
 
         $result = $statement->fetchAll();
@@ -60,7 +77,8 @@ class ProductRepository
         return $products;
     }
 
-    public function delete(int $id){
+    public function delete(int $id)
+    {
 
         // returns true if the product didn't exist at all
         // returns false if deletion fails
@@ -82,7 +100,7 @@ class ProductRepository
 
         // https://www.php.net/manual/en/function.mysql-error.php
         $result = $statement->errorCode();
-        
+
         if (!$result) {
             return false;
         }
@@ -150,7 +168,7 @@ class ProductRepository
 
             // delete previous picture
             unlink($imagePath);
-            
+
             // if the new picture is null, it won't write anything in place of old picture
             $this->saveImageToFile($new_prod->getImage(), $imagePath);
 
@@ -176,7 +194,7 @@ class ProductRepository
         ");
         $statement->execute($data);
         $result = $statement->fetch();
-        
+
         if ($result) {
             return null;
         }
@@ -203,11 +221,11 @@ class ProductRepository
         }
 
         $bin = fread($fp, filesize($imagePath));
-        if (!$bin){
+        if (!$bin) {
             return null;
         }
 
-        if(!fclose($fp)){
+        if (!fclose($fp)) {
             return null;
         }
 
@@ -229,14 +247,15 @@ class ProductRepository
         // but in practice it's fine since it's my computer and I don't have permissions issues :D
         $bin = base64_decode($imgBase64);
         $file_w = fopen($imagePath, 'w+');
-        if ($file_w == false){
+        if ($file_w == false) {
             return null;
         }
 
-        if (fwrite($file_w, $bin) == false){
+        if (fwrite($file_w, $bin) == false) {
             return null;
-        };
-        if(!fclose($file_w)){
+        }
+        ;
+        if (!fclose($file_w)) {
             return null;
         }
 

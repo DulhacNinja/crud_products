@@ -11,15 +11,10 @@ drop database <name>;
 to use the db:
 use crud_products_db;
 
-
-Database class
-router
-for create, make html form and get them from _POST
-Validator pure class for each type of input
-some weird stuff about how to 'require' files????
-
-
-0. move the bussiness related validations and errors to the ProductService class
-0.5 controller is meant to translate HTTP request to the service
-1. make ProductService class
-
+1. filter input server-side cause we the goats
+1.5 add filer to page endpoint
+2. handle cases when page is empty (what if you filter by something that doesn't exist)
+2. form for adding product
+3. maybe use for pagination
+4. when returning the products in page, return only the link to the image, not the whole image
+    it might save some loading times

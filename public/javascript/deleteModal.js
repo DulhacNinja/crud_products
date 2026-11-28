@@ -57,6 +57,7 @@ function deleteProduct(product) {
     .then(res => res.json())
     .then(data => alert(`deleted prod id=${data['id']}`));
   
+// refetch page
     fetchTable(globalPageData['page']);
 
 }

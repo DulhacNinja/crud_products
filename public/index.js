@@ -1,14 +1,37 @@
+function extractFilter() {
+
+    const filterInputElm = document.getElementById('filterInput');
+    // https://stackoverflow.com/questions/11563638/how-do-i-get-the-value-of-text-input-field-using-javascript
+    const filter = filterInputElm.value;
+    if(filter){
+        return filter;
+    }
+    return false;
+}
+
+
 
 // for now limit is global
 limit = 5;
 globalPageData = '';
+globalFilter = false;
+
 function fetchTable(page) {
     // if we're truing to fetch page 0, that means, page 1 has failed, cause it's empty
-    if (page == 0) {
+    if (page <= 0) {
         alert("PAGE 0 HAS BEEN REACHED, THERE AREN'T ANY PRODUCTS ON BACKEND DB");
         return;
     }
-    var url = `/api/products?page=${page}&limit=${limit}`;
+
+    // get filter text from input box
+    globalFilter = extractFilter();
+
+    if (filter) {
+        var url = `/api/products?page=${page}&limit=${limit}&filter=${globalFilter}`
+    }
+    else {
+        var url = `/api/products?page=${page}&limit=${limit}`;
+    }
     fetch(url).then(res => res.json())
         .then(pageData => {
             globalPageData = pageData;
@@ -22,5 +45,7 @@ function fetchTable(page) {
             }
         })
 }
+
+// DON'T FORGET TO ADD EVENT HANDLER TO BUTTON TO CALL FETCH TABLE
 
 fetchTable(1);

@@ -30,20 +30,21 @@ class ProductsService
     }
 
     // the array is empty if no elements are found for that page
-    public function getPage(int $page, int $limit): array
+    public function getPage(int $page, int $limit, ?string $filter): array
     {
 
-        $prods = $this->productRepository->getPage($page, $limit);
+        $prods = $this->productRepository->getPage($page, $limit, $filter);
         if (empty($prods)) {
             throw new Exception("Page #{$page} of size {$limit} is not valid or is empty!");
         }
-        $counts = $this->productRepository->getPagesNumber($limit);
+        $counts = $this->productRepository->getPagesNumber($limit, $filter);
         if ($counts["pages"] === null) {
             throw new Exception("Failed to return the number of pages for page size limit={$limit}");
         }
         $data = [
             "page" => $page,
             "limit" => $limit,
+            "filter" => $filter,
             "totalPages" => $counts['pages'],
             "totalProducts" => $counts["prodCount"],
             "products" => $prods
